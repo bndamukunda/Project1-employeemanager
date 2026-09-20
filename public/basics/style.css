@@ -1,0 +1,32 @@
+body {
+  font-family: system-ui, sans-serif;
+  background-color: white;
+  color: #18181b;
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+h1 {
+  font-size: 32px;
+  margin-bottom: 4px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  margin-top: 24px;
+}
+
+th {
+  background-color: darkblue;
+  color: white;
+  text-align: left;
+  padding: 12px;
+}
+
+td {
+  padding: 12px;
+  border-bottom: 1px solid #e4e4e7;
+}
