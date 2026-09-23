@@ -5,6 +5,12 @@ const roleInput = document.querySelector("#role-input");
 const departmentInput = document.querySelector("#department-input");
 
 button.addEventListener("click", function () {
+  if (nameInput.value === "") {
+    return;
+  }
   const newRow = "<tr><td>" + nameInput.value + "</td><td>" + roleInput.value + "</td><td>" + departmentInput.value + "</td></tr>";
   tableBody.innerHTML = tableBody.innerHTML + newRow;
+  nameInput.value = "";
+  roleInput.value = "";
+  departmentInput.value = "";
 });
