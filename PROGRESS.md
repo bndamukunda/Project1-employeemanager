@@ -71,3 +71,17 @@ Same table, but generated from a list instead of typed out seven times.
 
 Stage 5 — a real form · Stage 6 — a database, so data survives a refresh (the MVP)
 Then: edit/delete, validation, search, accounts.
+
+---
+
+## Stage 6 — Database
+
+The problem: rows vanished on refresh because they only lived in the browser's memory.
+
+MongoDB Atlas = a database on the internet instead of my laptop, so my phone and
+my live site can reach it too.
+
+The connection string holds the address AND the password, so it goes in `.env.local`,
+never in the code. `.gitignore` blocks `.env*` so it can't reach GitHub.
+
+**Still fuzzy:** 
