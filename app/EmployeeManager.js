@@ -14,7 +14,7 @@ export default function EmployeeManager({ startingEmployees }) {
       <h1 className="text-3xl font-bold">Employee Manager</h1>
       <p className="mt-1 text-sm">Built by Benjamin Ndamukunda</p>
 
-      <div className="mt-6 flex gap-2">
+      <div className="mt-6 flex flex-col gap-2 sm:flex-row">
         <input
           placeholder="Name"
           className="border p-2"
