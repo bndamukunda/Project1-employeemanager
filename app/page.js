@@ -2,6 +2,8 @@ import connectToDatabase from "@/lib/db";
 import Employee from "@/models/Employee";
 import EmployeeManager from "./EmployeeManager";
 
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
   await connectToDatabase();
   const employees = await Employee.find({}).lean();
