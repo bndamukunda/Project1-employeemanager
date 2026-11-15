@@ -1,13 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { createEmployee } from "./actions";
+import { createEmployee, deleteEmployee } from "./actions";
 
 export default function EmployeeManager({ startingEmployees }) {
   const [employees, setEmployees] = useState(startingEmployees);
   const [name, setName] = useState("");
   const [role, setRole] = useState("");
   const [department, setDepartment] = useState("");
+  const [editingId, setEditingId] = useState(null);
 
   return (
     <main className="min-h-screen bg-white text-black p-10">
@@ -48,7 +49,7 @@ export default function EmployeeManager({ startingEmployees }) {
           }}
           className="border p-2 bg-[darkblue] text-white"
         >
-          Add Employee
+          {editingId ? "Save Changes" : "Add Employee"}
         </button>
       </div>
 
@@ -58,6 +59,7 @@ export default function EmployeeManager({ startingEmployees }) {
             <th className="p-3">Name</th>
             <th className="p-3">Role</th>
             <th className="p-3">Department</th>
+            <th className="text-red-600">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -66,6 +68,28 @@ export default function EmployeeManager({ startingEmployees }) {
               <td className="p-3">{employee.name}</td>
               <td className="p-3">{employee.role}</td>
               <td className="p-3">{employee.department}</td>
+              <td className="p-3">
+                 <button
+                  onClick={async() => {
+                    await deleteEmployee(employee._id);
+                    setEmployees(employees.filter((e) => e._id !== employee._id));
+                  }}
+                  className="text-red-600"
+                  >
+                    Delete</button>
+                 
+                 <button
+                 onClick={() => {
+                    setEditingId(employee._id);
+                    setName(employee.name);
+                    setRole(employee.role);
+                    setDepartment(employee.department);
+                  }}
+                  className="text-blue-600"
+                >
+                  Edit
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>
