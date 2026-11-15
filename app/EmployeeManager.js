@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { createEmployee, deleteEmployee } from "./actions";
+import { createEmployee, deleteEmployee, updateEmployee } from "./actions";
 
 export default function EmployeeManager({ startingEmployees }) {
   const [employees, setEmployees] = useState(startingEmployees);
@@ -40,12 +40,26 @@ export default function EmployeeManager({ startingEmployees }) {
             if (role === "") { return; }
             if (department === "") { return; }
 
-            const saved = await createEmployee(name, role, department);
 
+          if (editingId) {
+            await updateEmployee(editingId, name, role, department);
+            
+            setEmployees(employees.map((e) => {
+  if (e._id === editingId) {
+    return { _id: e._id, name: name, role: role, department: department };
+  }
+  return e;
+}));
+            setEditingId(null);
+          } else {
+            const saved = await createEmployee(name, role, department);
             setEmployees([...employees, saved]);
-            setName("");
-            setRole("");
-            setDepartment("");
+          }
+
+          setName("");
+          setRole("");
+          setDepartment("");
+            
           }}
           className="border p-2 bg-[darkblue] text-white"
         >
@@ -59,7 +73,8 @@ export default function EmployeeManager({ startingEmployees }) {
             <th className="p-3">Name</th>
             <th className="p-3">Role</th>
             <th className="p-3">Department</th>
-            <th className="text-red-600">Actions</th>
+            <th className="p-3"></th>
+            <th className="p-3"></th>
           </tr>
         </thead>
         <tbody>
@@ -77,7 +92,8 @@ export default function EmployeeManager({ startingEmployees }) {
                   className="text-red-600"
                   >
                     Delete</button>
-                 
+              </td>
+              <td className="p-3">
                  <button
                  onClick={() => {
                     setEditingId(employee._id);
