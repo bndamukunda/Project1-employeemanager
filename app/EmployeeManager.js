@@ -66,8 +66,8 @@ export default function EmployeeManager({ startingEmployees }) {
           {editingId ? "Save Changes" : "Add Employee"}
         </button>
       </div>
-
-      <table className="w-full mt-6 border-collapse">
+      <div className="mt-6 overflow-x-auto">
+      <table className="w-full border-collapse">
         <thead>
           <tr className="bg-[darkblue] text-white text-left">
             <th className="p-3">Name</th>
@@ -110,6 +110,7 @@ export default function EmployeeManager({ startingEmployees }) {
           ))}
         </tbody>
       </table>
+     </div>
     </main>
   );
 }
