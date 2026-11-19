@@ -35,31 +35,31 @@ export default function EmployeeManager({ startingEmployees }) {
           onChange={(e) => setDepartment(e.target.value)}
         />
         <button
-          onClick={async() => {
+          onClick={async () => {
             if (name === "") { return; }
             if (role === "") { return; }
             if (department === "") { return; }
 
 
-          if (editingId) {
-            await updateEmployee(editingId, name, role, department);
-            
-            setEmployees(employees.map((e) => {
-  if (e._id === editingId) {
-    return { _id: e._id, name: name, role: role, department: department };
-  }
-  return e;
-}));
-            setEditingId(null);
-          } else {
-            const saved = await createEmployee(name, role, department);
-            setEmployees([...employees, saved]);
-          }
+            if (editingId) {
+              await updateEmployee(editingId, name, role, department);
 
-          setName("");
-          setRole("");
-          setDepartment("");
-            
+              setEmployees(employees.map((e) => {
+                if (e._id === editingId) {
+                  return { _id: e._id, name: name, role: role, department: department };
+                }
+                return e;
+              }));
+              setEditingId(null);
+            } else {
+              const saved = await createEmployee(name, role, department);
+              setEmployees([...employees, saved]);
+            }
+
+            setName("");
+            setRole("");
+            setDepartment("");
+
           }}
           className="border p-2 bg-[darkblue] text-white"
         >
@@ -67,50 +67,50 @@ export default function EmployeeManager({ startingEmployees }) {
         </button>
       </div>
       <div className="mt-6 overflow-x-auto">
-      <table className="w-full border-collapse">
-        <thead>
-          <tr className="bg-[darkblue] text-white text-left">
-            <th className="p-3">Name</th>
-            <th className="p-3">Role</th>
-            <th className="p-3">Department</th>
-            <th className="p-3"></th>
-            <th className="p-3"></th>
-          </tr>
-        </thead>
-        <tbody>
-          {employees.map((employee) => (
-            <tr key={employee._id} className="border-b border-zinc-200">
-              <td className="p-3">{employee.name}</td>
-              <td className="p-3">{employee.role}</td>
-              <td className="p-3">{employee.department}</td>
-              <td className="p-3">
-                 <button
-                  onClick={async() => {
-                    await deleteEmployee(employee._id);
-                    setEmployees(employees.filter((e) => e._id !== employee._id));
-                  }}
-                  className="text-red-600"
+        <table className="w-full border-collapse">
+          <thead>
+            <tr className="bg-[darkblue] text-white text-left">
+              <th className="p-3">Name</th>
+              <th className="p-3">Role</th>
+              <th className="p-3">Department</th>
+              <th className="p-3"></th>
+              <th className="p-3"></th>
+            </tr>
+          </thead>
+          <tbody>
+            {employees.map((employee) => (
+              <tr key={employee._id} className="border-b border-zinc-200">
+                <td className="p-3">{employee.name}</td>
+                <td className="p-3">{employee.role}</td>
+                <td className="p-3">{employee.department}</td>
+                <td className="p-3">
+                  <button
+                    onClick={async () => {
+                      await deleteEmployee(employee._id);
+                      setEmployees(employees.filter((e) => e._id !== employee._id));
+                    }}
+                    className="text-red-600"
                   >
                     Delete</button>
-              </td>
-              <td className="p-3">
-                 <button
-                 onClick={() => {
-                    setEditingId(employee._id);
-                    setName(employee.name);
-                    setRole(employee.role);
-                    setDepartment(employee.department);
-                  }}
-                  className="text-blue-600"
-                >
-                  Edit
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-     </div>
+                </td>
+                <td className="p-3">
+                  <button
+                    onClick={() => {
+                      setEditingId(employee._id);
+                      setName(employee.name);
+                      setRole(employee.role);
+                      setDepartment(employee.department);
+                    }}
+                    className="text-blue-600"
+                  >
+                    Edit
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </main>
   );
 }
