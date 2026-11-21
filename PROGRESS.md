@@ -67,13 +67,6 @@ Same table, but generated from a list instead of typed out seven times.
 
 ---
 
-## Still to come
-
-Stage 5 — a real form · Stage 6 — a database, so data survives a refresh (the MVP)
-Then: edit/delete, validation, search, accounts.
-
----
-
 ## Stage 6 — Database
 
 The problem: rows vanished on refresh because they only lived in the browser's memory.
@@ -85,3 +78,95 @@ The connection string holds the address AND the password, so it goes in `.env.lo
 never in the code. `.gitignore` blocks `.env*` so it can't reach GitHub.
 
 **Still fuzzy:** 
+
+---
+
+## Stage 7 — Delete and Edit (CRUD finished)
+
+### Deleting
+
+A `deleteEmployee(id)` server action in `actions.js`, and a Delete button in each row that
+calls it then drops the row from the screen with `.filter()`.
+
+### Editing
+
+Click **Edit** on a row → the three boxes fill with that person's details → the button changes
+to **Save Changes** → edit and save → the row updates.
+
+**`editingId` is a sticky note saying which employee I'm working on.**
+
+```js
+const [editingId, setEditingId] = useState(null);
+```
+
+`null` = not editing anyone.
+
+**Why I need it:** the boxes only hold text. When I hit Save, the app has to know *which*
+employee to change — and two people could share a name. The only thing that identifies one
+employee is their `_id`, and the boxes don't hold it. So I store it separately.
+
+**It does two jobs:**
+
+1. **Carries the id**, so Save knows who to update
+2. **Acts as a switch** — "are we editing?" is answered by checking it, both for which path
+   runs and which label the button shows
+
+**`setEditingId(null)` at the end is not cosmetic.** The label flipping back is just the
+visible part. The real effect is that the *next* click creates instead of updates. Without it,
+the next person I typed would overwrite the one I'd just edited, forever.
+
+### One button, two jobs
+
+```js
+if (editingId) {
+  // update: save, swap the row, setEditingId(null)
+} else {
+  // add: create, append to the list
+}
+```
+
+`createEmployee` only in the `else`. `updateEmployee` only in the `if`. **Never both** — running
+both is what was creating duplicates.
+
+### Two new ideas
+
+**The ternary** — a compact if/else that *produces a value*:
+
+```jsx
+{editingId ? "Save Changes" : "Add Employee"}
+```
+
+JSX needs something that hands back a value. A normal `if` doesn't hand anything back.
+
+**`.map()` to change one item:** go through the list, swap the one being edited, leave everyone
+else exactly as they were.
+
+### The full set
+
+All three hand `setEmployees` a **brand new list** — React only notices a change when it's
+given a *different* list, not a modified one.
+
+| Add | `[...employees, saved]` | list plus one |
+| Delete | `.filter()` | list minus one |
+| Update | `.map()` | list with one swapped |
+
+### Bugs I hit
+
+- **Pasted the pieces in a line instead of branching them.** Both paths ran, so editing created
+  a duplicate *and* updated the original.
+- **Deleted the wrong `createEmployee`** — there were two identical lines.
+- **Forgot the import.** `updateEmployee is not defined` — the function existed, it just wasn't
+  in the import line. **"X is not defined" → check the top of the file first.**
+- **Thought the fix hadn't worked.** The table still showed ten junk rows the bug had written.
+  **Fixing the code doesn't clean up the data it already wrote.**
+- **Said "it's not working" instead of pasting the error.** The error named the file, the line
+  and the problem — solved in seconds once I shared it.
+
+**Still fuzzy:** 
+
+---
+
+## Still to come
+
+Stage 8 — don't let it break (validation, loading, error messages) · Stage 9 — search and filter
+Stage 10 — accounts and login · Stage 11 — polish, photos, a custom domain

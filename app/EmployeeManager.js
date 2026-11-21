@@ -9,6 +9,7 @@ export default function EmployeeManager({ startingEmployees }) {
   const [role, setRole] = useState("");
   const [department, setDepartment] = useState("");
   const [editingId, setEditingId] = useState(null);
+  const [error, setError] = useState("");
 
   return (
     <main className="min-h-screen bg-white text-black p-10">
@@ -36,10 +37,11 @@ export default function EmployeeManager({ startingEmployees }) {
         />
         <button
           onClick={async () => {
-            if (name === "") { return; }
-            if (role === "") { return; }
-            if (department === "") { return; }
-
+            if (name === "" || role === "" || department === "") { 
+              setError("Please fill in all three fields");
+              return;
+            }
+            setError("");
 
             if (editingId) {
               await updateEmployee(editingId, name, role, department);
@@ -66,6 +68,7 @@ export default function EmployeeManager({ startingEmployees }) {
           {editingId ? "Save Changes" : "Add Employee"}
         </button>
       </div>
+      {error && <p className="mt-2 text-red-600">{error}</p>}
       <div className="mt-6 overflow-x-auto">
         <table className="w-full border-collapse">
           <thead>
