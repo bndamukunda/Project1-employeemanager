@@ -81,6 +81,10 @@ export default function EmployeeManager({ startingEmployees }) {
             </tr>
           </thead>
           <tbody>
+            {employees.length === 0 && (
+              <p className="mt-4 text-zinc-500">No employees yet. Add one 
+              above.</p>
+            )}
             {employees.map((employee) => (
               <tr key={employee._id} className="border-b border-zinc-200">
                 <td className="p-3">{employee.name}</td>
