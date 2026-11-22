@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { createEmployee, deleteEmployee, updateEmployee } from "./actions";
-
+  
 export default function EmployeeManager({ startingEmployees }) {
   const [employees, setEmployees] = useState(startingEmployees);
   const [name, setName] = useState("");
@@ -71,6 +71,7 @@ export default function EmployeeManager({ startingEmployees }) {
       {error && <p className="mt-2 text-red-600">{error}</p>}
       <div className="mt-6 overflow-x-auto">
         <table className="w-full border-collapse">
+          
           <thead>
             <tr className="bg-[darkblue] text-white text-left">
               <th className="p-3">Name</th>
@@ -81,10 +82,6 @@ export default function EmployeeManager({ startingEmployees }) {
             </tr>
           </thead>
           <tbody>
-            {employees.length === 0 && (
-              <p className="mt-4 text-zinc-500">No employees yet. Add one 
-              above.</p>
-            )}
             {employees.map((employee) => (
               <tr key={employee._id} className="border-b border-zinc-200">
                 <td className="p-3">{employee.name}</td>
@@ -117,6 +114,9 @@ export default function EmployeeManager({ startingEmployees }) {
             ))}
           </tbody>
         </table>
+        {employees.length === 0 && (
+  <p className="mt-4 text-zinc-500">No employees yet. Add one above.</p>
+)}
       </div>
     </main>
   );
